@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Thank you for your inquiry! " +
+                "Here are the details of your requested report:";
+}
+<h2>@ViewData["Title"]</h2>
+
+
+<p> <strong>Recall Identifier:</strong> @ViewBag.id</p>
+
+<p> <strong>Recall Date:</strong> @ViewBag.date</p>
+
+<p> <strong>Product Recalled:</strong> @ViewBag.productDescription</p>
+
+<p> <strong>Quantity Recalled:</strong> @ViewBag.quantity</p>
+
+<p> <strong>Reason for Recall:</strong> @ViewBag.reason</p>
+
+<p> <strong>Recalling Company:</strong> @ViewBag.company</p>
+
+<p> <strong>Company Street:</strong> @ViewBag.address</p>
+
+<p> <strong>Company City:</strong> @ViewBag.city</p>
+
+<p> <strong>Company State:</strong> @ViewBag.state</p>
+
+<p> <strong>Company Country:</strong> @ViewBag.Country</p>
+
+<p> <strong>Product Distributed in:</strong> @ViewBag.distribution</p>
+
+<p> <strong>Recall initiated by:</strong> @ViewBag.voluntary</p>
+
+

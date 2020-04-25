@@ -1,0 +1,111 @@
+﻿@model Assignment4_Practice.Models.EF_Models.Rootobject
+
+
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Recall ID</th>
+            <th>Report Date</th>
+            <th>State</th>
+            <th>Product Quantity</th>
+            <th>Company </th>
+            <th>Recall Reason</th>
+            <th>Product Distribution Locations</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.results)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.recall_number)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.report_date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.state)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.product_quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.recalling_firm)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.reason_for_recall)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.distribution_pattern)
+                </td>
+                <td>
+                    <a asp-controller="Home" asp-action="SaveFavorite" asp-route-recall_id=@item.recall_number>
+                        <p><b>Mark as a favorite</b></p>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a id="dbopt" asp-controller="Home" asp-action="PopulateReports">
+    <p><b>Save to the database</b></p>
+</a>
+
+
+<form asp-controller="Home" asp-action="DeleteReport" style="border:double" method="delete">
+    <p>
+        Here is a form where you may delete any report from you local database.
+        Please select a report recall number from the following list:
+    </p>
+    <select name="recall_number">
+        @foreach (var result in Model.results)
+        {
+            <option >@result.recall_number</option>
+
+        }
+
+    </select>
+
+
+    <input type="submit" value="submit" />
+
+</form>
+
+<form asp-controller="Home" asp-action="UpdateReport" method="put">
+    <select name="recall_ID">
+        @foreach (var result in Model.results)
+        {
+            <option value=@result.recall_number>@result.recall_number</option>
+
+        }
+
+    </select>
+
+    <br />
+    Reason for Recall: <input type="text" name="reason" /><br />
+    Product Name: <input type="text" name="product" /><br />
+    Company Name: <input type="text" name="company" /><br />
+    Product Country of Origin: <input type="text" name="country" /><br />
+
+    <input type="submit" value="submit" />
+</form>
+
+<h4> Retrieve more details for any report here:</h4>
+<form asp-controller="Home" asp-action="GetReportDetails" method="get">
+    <select name="recall_number">
+        @foreach (var result in Model.results)
+        {
+            <option value=@result.recall_number>@result.recall_number</option>
+
+        }
+
+    </select>
+
+    
+
+    <input type="submit" value="submit" />
+</form>
