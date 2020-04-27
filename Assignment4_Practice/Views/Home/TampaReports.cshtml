@@ -2,16 +2,21 @@
 
 
 
-<table border="1">
+<h3 style="text-align:center"> Sample Live API Data Report for Tampa </h3>
+<table border="1" style="border-style:solid">
     <thead>
         <tr>
             <th>Recall ID</th>
             <th>Report Date</th>
+            <th>Product Name</th>
+            <th>City</th>
+            <th>State</th>
             <th>Product Quantity</th>
-            <th>Company</th>
+            <th>Company </th>
             <th>Recall Reason</th>
             <th>Product Distribution Locations</th>
-            
+            <th>Recall Classification</th>
+
         </tr>
     </thead>
     <tbody>
@@ -22,10 +27,17 @@
                     @Html.DisplayFor(modelItem => item.recall_number)
                 </td>
                 <td>
-
                     @Html.DisplayFor(modelItem => item.report_date)
                 </td>
-
+                <td>
+                    @Html.DisplayFor(modelItem => item.product_description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.city)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.state)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.product_quantity)
                 </td>
@@ -38,36 +50,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.distribution_pattern)
                 </td>
-                
+                <td>
+                    @Html.DisplayFor(modelItem => item.classification)
+                </td>
             </tr>
         }
     </tbody>
-</table>
+    </table>
 
-<a asp-controller="Home" asp-action="PopulateTampaReports">
-    <p><b>Save to the database</b></p>
-</a>
+    <a asp-controller="Home" asp-action="PopulateTampaReports">
+        <h6><b>Save this data your local database </b></h6>
+    </a>
 
 
 
-<p> Here is a form where you may add a fictitious report to the Favorites Table in your local database:</p>
-<form asp-controller="Home" asp-action="SaveFavorite" method="post">
-    <select name="recall_ID">
-        @foreach (var result in Model.results)
-        {
-            <option value=@result.recall_number>@result.recall_number</option>
 
-        }
-
-    </select>
-    <br />
-    Reason for Recall: <input type="text" name="reason" /><br />
-    Product Name: <input type="text" name="product" /><br />
-    Company Name: <input type="text" name="company" /><br />
-    Product Country of Origin: <input type="text" name="country" /><br />
-
-    <input type="submit" value="submit" />
-</form>
 
 
 
