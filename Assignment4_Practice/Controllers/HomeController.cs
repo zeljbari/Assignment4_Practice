@@ -20,19 +20,19 @@ namespace Assignment4_Practice.Controllers
 	public class HomeController : Controller
 	{
 		public ApplicationDbContext dbContext;
-		
-		
+
+
 
 		public HomeController(ApplicationDbContext context)
 		{
-			dbContext = context;		
+			dbContext = context;
 		}
 
 		public ViewResult Chart()
 		{
-			string[] ChartLabels = new string[] { "Class I","Class II","Class III"  };
+			string[] ChartLabels = new string[] { "Class I", "Class II", "Class III" };
 			string[] ChartColors = new string[] { "#3e95cd", "#8e5ea2", "#3cba9f" };
-			int[] ChartData = new int[] { 100, 200, 300 };
+			int[] ChartData = new int[] { 200, 140, 300 };
 
 
 
@@ -62,28 +62,28 @@ namespace Assignment4_Practice.Controllers
 
 			return View(reportObject);
 		}
-		public IActionResult SaveFavorite(string recall_ID, string country, string reason, string product,string company)
+		public IActionResult SaveFavorite(string recall_ID, string country, string reason, string product, string company)
 		{
 			try
-			{ 
-				
+			{
+
 				Favorite favorite = new Favorite();
 				favorite.reason_for_recall = reason;
 				favorite.product_description = product;
 				favorite.recalling_firm = company;
 				favorite.recall_number = recall_ID;
 				favorite.country = country;
-				
-					dbContext.Favorites.Add(favorite);
-				
-				
+
+				dbContext.Favorites.Add(favorite);
+
+
 				dbContext.SaveChanges();
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
-				
+
 			}
-			
+
 
 			return RedirectToAction("Index");
 		}
@@ -91,7 +91,7 @@ namespace Assignment4_Practice.Controllers
 		{
 			try
 			{
-				foreach(Report report in dbContext.Reports)
+				foreach (Report report in dbContext.Reports)
 				{
 					if (report.recall_number == recall_ID)
 					{
@@ -125,7 +125,7 @@ namespace Assignment4_Practice.Controllers
 					ViewBag.productDescription = report.product_description;
 					ViewBag.quantity = report.product_quantity;
 					ViewBag.reason = report.reason_for_recall;
-					
+
 					ViewBag.company = report.recalling_firm;
 					ViewBag.address = report.address_1;
 					ViewBag.city = report.city;
@@ -133,13 +133,13 @@ namespace Assignment4_Practice.Controllers
 					ViewBag.Country = report.country;
 					ViewBag.distribution = report.distribution_pattern;
 					ViewBag.date = report.report_date;
-					ViewBag.voluntary = report.voluntary_mandated;									
+					ViewBag.voluntary = report.voluntary_mandated;
 
 				}
 
 
 			}
-			
+
 			return View("ThankYou");
 		}
 		public IActionResult DeleteReport(string recall_number)
@@ -152,17 +152,17 @@ namespace Assignment4_Practice.Controllers
 				if (report.recall_number == recall_number)
 				{
 					dbContext.Reports.Remove(report);
-					
+
 				}
-				
+
 
 			}
 			dbContext.SaveChanges();
 			return RedirectToAction("Index");
 		}
 
-		
-		
+
+
 		public IActionResult TampaReports()
 		{
 			ViewBag.dbSuccessComp = 0;
@@ -210,7 +210,7 @@ namespace Assignment4_Practice.Controllers
 			ViewBag.dbSuccessComp = 1;
 			return View("TampaReports", rootObject);
 		}
-		
+
 		public IActionResult PopulateReports()
 		{
 
@@ -227,7 +227,7 @@ namespace Assignment4_Practice.Controllers
 				if (dbContext.Reports.Where(c => c.recall_number.Equals(report.recall_number)).Count() == 0)
 				{
 					dbContext.Reports.Add(report);
-					
+
 				}
 
 
@@ -237,11 +237,6 @@ namespace Assignment4_Practice.Controllers
 			ViewBag.dbSuccessComp = 1;
 			return View("Index", rootObject);
 		}
-
-
-		
-
-		
 
 		public IActionResult Privacy()
 		{
@@ -258,27 +253,9 @@ namespace Assignment4_Practice.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		public ViewResult Chart()
-		{
-			string[] ChartLabels = new string[] { "Class I", "Class II", "Class III" };
-			string[] ChartColors = new string[] { "#3e95cd", "#8e5ea2", "#3cba9f" };
-			int[] ChartData = new int[] { 100, 200, 300 };
 
-
-
-			ChartModel Model = new ChartModel
-			{
-				ChartType = "bar",
-				Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
-				Colors = String.Join(",", ChartColors.Select(d => "\"" + d + "\"")),
-				Data = String.Join(",", ChartData.Select(d => d)),
-				Title = "Proportion of food recalls"
-			};
-
-
-
-			return View(Model);
-		}
 
 	}
+
 }
+
