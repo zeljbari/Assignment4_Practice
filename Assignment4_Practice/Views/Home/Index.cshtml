@@ -1,82 +1,90 @@
 ﻿@model Assignment4_Practice.Models.EF_Models.Rootobject
 
+<title> Food and Drug Adminstration</title>
 
+<h1 style="text-align:center"> Welcome! </h1>
 
+<p>
+    This website contains some useful information about products that have been recalled by the Food and Drug Administration.
+    On this website, you will be able to :
+    <ol>
+        <li> View live data about product recalls in the U.S. from the FDA API on the Home page.</li>
+        <li> View live data about local product recalls filtered by the city of Tampa Bay on the Tampa Reports page.</li>
+        <li> Save the contents of both or one of the data tables to your local database.</li>
+        <li> Create a fictitious report in the Favorites table in your local database.</li>
+        <li> Edit, delete, or obtain more details about a specific report in the Reports table 
+        after saving data to the local database.</li>
+        <li> View a chart based on the FDA API data as well as the ERD on the Chart page.</li>
+        <li> Learn more about the development team.</li>
+    </ol>
+</p>
 
-<table border="1">
+<h3 style="text-align:center"> Sample Live API Data Report </h3>
+<table border="1" style="border-style:solid">
     <thead>
         <tr>
             <th>Recall ID</th>
             <th>Report Date</th>
+            <th>Product Name</th>
+            <th>City</th>
             <th>State</th>
             <th>Product Quantity</th>
             <th>Company </th>
             <th>Recall Reason</th>
             <th>Product Distribution Locations</th>
-            <th>Options</th>
+            <th>Recall Classification</th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.results)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.recall_number)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.report_date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.state)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.product_quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.recalling_firm)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.reason_for_recall)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.distribution_pattern)
-                </td>
-                <td>
-                    <a asp-controller="Home" asp-action="SaveFavorite" asp-route-recall_id=@item.recall_number>
-                        <p><b>Mark as a favorite</b></p>
-                    </a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.recall_number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.report_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.product_description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.city)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.state)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.product_quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.recalling_firm)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.reason_for_recall)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.distribution_pattern)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.classification)
+            </td>
+        </tr>
         }
     </tbody>
 </table>
-
+<br />
 <a id="dbopt" asp-controller="Home" asp-action="PopulateReports">
-    <p><b>Save to the database</b></p>
+    <h6><b>Save this data your local database </b></h6>
 </a>
-
-
-<form asp-controller="Home" asp-action="DeleteReport" style="border:double" method="delete">
-    <p>
-        Here is a form where you may delete any report from you local database.
-        Please select a report recall number from the following list:
-    </p>
+<p style=" color:red">
+    Note: Please make sure that you have saved data to your database before attempting to delete, edit,
+    or request more details about a report.
+</p>
+<form asp-controller="Home" asp-action="GetReportDetails" method="get">
+    <h4> Retrieve more details for any report here:</h4>
     <select name="recall_number">
-        @foreach (var result in Model.results)
-        {
-            <option >@result.recall_number</option>
-
-        }
-
-    </select>
-
-
-    <input type="submit" value="submit" />
-
-</form>
-
-<form asp-controller="Home" asp-action="UpdateReport" method="put">
-    <select name="recall_ID">
         @foreach (var result in Model.results)
         {
             <option value=@result.recall_number>@result.recall_number</option>
@@ -84,28 +92,83 @@
         }
 
     </select>
+
+    <input type="submit" value="Get More Details" />
 
     <br />
-    Reason for Recall: <input type="text" name="reason" /><br />
-    Product Name: <input type="text" name="product" /><br />
-    Company Name: <input type="text" name="company" /><br />
-    Product Country of Origin: <input type="text" name="country" /><br />
-
-    <input type="submit" value="submit" />
+    <br />
+    <hr />
 </form>
+<form asp-controller="Home" asp-action="DeleteReport" method="delete">
+    <h4> Delete a report</h4>
 
-<h4> Retrieve more details for any report here:</h4>
-<form asp-controller="Home" asp-action="GetReportDetails" method="get">
-    <select name="recall_number">
-        @foreach (var result in Model.results)
-        {
-            <option value=@result.recall_number>@result.recall_number</option>
+    <p>
+        Please select a report recall number from the following list:
+        </p>
+        <select name="recall_number">
+            @foreach (var result in Model.results)
+            {
+                <option>@result.recall_number</option>
 
-        }
+            }
 
-    </select>
-
+        </select>
     
 
-    <input type="submit" value="submit" />
+    <input type="submit" value="Delete" />
+    <br />
+    <br />
+
 </form>
+<hr />
+<div>
+    <form asp-controller="Home" asp-action="UpdateReport" method="put">
+        <h4> Edit a report</h4>
+        <p>
+            Please select a report recall number from the following list, then please enter string values
+            for each field to replace that report's current data in your database.
+        </p>
+        <select name="recall_ID">
+            @foreach (var result in Model.results)
+            {
+                <option value=@result.recall_number>@result.recall_number</option>
+
+            }
+
+        </select>
+
+        Reason for Recall: <input type="text" name="reason" /><br />
+        <br />
+
+        Product Name: <input type="text" name="product" /><br />
+        <br />
+
+        Company Name: <input type="text" name="company" /><br />
+        <br />
+        Product Country of Origin: <input type="text" name="country" /><br />
+
+        <input type="submit" value="Edit" />
+        <br />
+        <br />
+    </form>
+</div>
+<hr />
+<form asp-controller="Home" asp-action="SaveFavorite" method="post">
+    <h4> Create a fictitious report</h4>
+    
+    Recall Identifier: <input type="text" name="recall_ID" /><br />
+    
+    <br />
+    Reason for Recall: <input type="text" name="reason" /><br />
+    <br />
+    Product Name: <input type="text" name="product" /><br />
+    <br />
+    Company Name: <input type="text" name="company" /><br />
+    <br />
+    Product Country of Origin: <input type="text" name="country" /><br />
+
+    <input type="submit" value="Create" />
+</form>
+
+
+

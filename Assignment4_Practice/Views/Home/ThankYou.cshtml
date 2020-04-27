@@ -1,10 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Thank you for your inquiry! " +
-                "Here are the details of your requested report:";
+    ViewData["Title"] = "Thank you for your inquiry! " ;
 }
-<h2>@ViewData["Title"]</h2>
+<h2 style="text-align:center">@ViewData["Title"]</h2>
 
-
+<h4>Here are some additional details for the report you requested: </h4><br />
 <p> <strong>Recall Identifier:</strong> @ViewBag.id</p>
 
 <p> <strong>Recall Date:</strong> @ViewBag.date</p>

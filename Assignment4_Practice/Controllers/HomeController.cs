@@ -257,5 +257,28 @@ namespace Assignment4_Practice.Controllers
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
+
+		public ViewResult Chart()
+		{
+			string[] ChartLabels = new string[] { "Class I", "Class II", "Class III" };
+			string[] ChartColors = new string[] { "#3e95cd", "#8e5ea2", "#3cba9f" };
+			int[] ChartData = new int[] { 100, 200, 300 };
+
+
+
+			ChartModel Model = new ChartModel
+			{
+				ChartType = "bar",
+				Labels = String.Join(",", ChartLabels.Select(d => "'" + d + "'")),
+				Colors = String.Join(",", ChartColors.Select(d => "\"" + d + "\"")),
+				Data = String.Join(",", ChartData.Select(d => d)),
+				Title = "Proportion of food recalls"
+			};
+
+
+
+			return View(Model);
+		}
+
 	}
 }
